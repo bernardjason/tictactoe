@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ttt="http://java.sun.com/jsf/composite/ttt"
+		xmlns:p="http://primefaces.org/ui"
+	
+	>
+<h:body>
+
+	<ui:composition template="/resources/template/commonLayout.xhtml">
+
+	<ui:param name="headerLine" value="Hi #{jsfAuthenticationBean.nickName}, match in proress" />
+
+		<ui:define name="content">
+		
+		
+		<ttt:getMatchComponent 
+		panelTitle="You're playing the #{jsfGameBean.playerNumber}'s"
+		  ticTacToeHref="#{jsfGameBean.gameHref}"
+        	/>		
+        	
+        	<script>
+        	$( document ).ready(function() {
+        	    console.log( "ready!" );
+        	    refresh();
+        	});
+        
+   		</script>
+   		
+   		<div><b>url to share</b> <input id="gameurltoshare" type="text" size="#{jsfGameBean.gameHref.length()}" readonly="true" value="#{jsfGameBean.gameHref}"/> 
+		</div>
+		
+		</ui:define>
+
+		<ui:define name="footer">
+			<h2>This is match Footer</h2>
+		</ui:define>
+
+
+	</ui:composition>
+
+
+</h:body>
+
+</html>

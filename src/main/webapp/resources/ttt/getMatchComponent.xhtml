@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+<composite:interface>
+	<composite:attribute name="ticTacToeHref" />
+	<composite:attribute name="panelTitle" />
+	
+/>
+
+</composite:interface>
+<composite:implementation>
+	<script>
+		var gameJson
+		function getMatch(ticTacToeHref, after) {
+
+			console.log("get " + ticTacToeHref);
+
+			var r = $.ajax({
+				type : "GET",
+				url : ticTacToeHref,
+				beforeSend : function(xhr, settings) {
+					xhr.setRequestHeader('Authorization', 'Bearer '
+							+ "#{jsfAuthenticationBean.access_token}");
+				},
+				contentType : "application/json; charset=utf-8",
+				async : true,
+				success : function(data, textStatus, jqXHR) {
+					console.log("get " + JSON.stringify(data));
+					gameJson = data;
+					after(data)
+					r = data;
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					handleErrorBackToHome(jqXHR, textStatus, errorThrown)
+				}
+			});
+			return r;
+
+		}
+		function setCell(json, name) {
+			var display
+			if (json[name] == null)
+				display = "_"
+			if (json[name] == "X")
+				display = "X"
+			if (json[name] == "O")
+				display = "O"
+
+			$("#" + name).text(display);
+
+		}
+		function updateUI(json) {
+			//getIdForJsfComponent("getMatchText").text(JSON.stringify(json)) 
+			setCell(json, "r0c0");
+			setCell(json, "r0c1");
+			setCell(json, "r0c2");
+			setCell(json, "r1c0");
+			setCell(json, "r1c1");
+			setCell(json, "r1c2");
+			setCell(json, "r2c0");
+			setCell(json, "r2c1");
+			setCell(json, "r2c2");
+		}
+		function refresh() {
+
+			getMatch("#{cc.attrs.ticTacToeHref}", updateUI)
+			setTimeout(refresh, 4000);
+		}
+		function pressed(what) {
+
+			what.innerHTML = "#{jsfGameBean.playerNumber}";
+			gameJson[what.id] = "#{jsfGameBean.playerNumber}";
+			console.log(JSON.stringify(gameJson));
+			$.ajax({
+				type : "PUT",
+				url : "#{cc.attrs.ticTacToeHref}",
+				beforeSend : function(xhr, settings) {
+					xhr.setRequestHeader('Authorization', 'Bearer '
+							+ "#{jsfAuthenticationBean.access_token}");
+				},
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(gameJson),
+				async : true,
+				success : function(data, textStatus, jqXHR) {
+					console.log("put " + JSON.stringify(data));
+					gameJson = data;
+					r = data;
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					handleErrorBackToHome(jqXHR, textStatus, errorThrown)
+
+				}
+			});
+
+		}
+	</script>
+
+	<p:panel id="basic" header="#{cc.attrs.panelTitle}"
+		style="margin-bottom:20px">
+		<h:form id="getMatchComponent">
+			<div id="getMatchComponent">
+
+
+				<table>
+					<tr>
+						<td><button id="r0c0" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r0c1" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r0c2" onclick="pressed(this)" type="button"></button></td>
+					</tr>
+					<tr>
+						<td><button id="r1c0" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r1c1" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r1c2" onclick="pressed(this)" type="button"></button></td>
+					</tr>
+					<tr>
+						<td><button id="r2c0" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r2c1" onclick="pressed(this)" type="button"></button></td>
+						<td><button id="r2c2" onclick="pressed(this)" type="button"></button></td>
+					</tr>
+
+				</table>
+			</div>
+
+
+
+		</h:form>
+
+	</p:panel>
+</composite:implementation>
+</html>

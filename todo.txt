@@ -1,0 +1,6 @@
+
+Annotation to log request and response from a rest resource? Better than Logging filter
+
+Standard swagger ui?
+
+Hook up to google oauth

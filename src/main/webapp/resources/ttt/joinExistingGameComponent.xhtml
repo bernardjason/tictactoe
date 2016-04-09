@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<composite:interface>
+	<composite:attribute name="nickName" />
+	<composite:attribute name="joinExistingGameLabel" />
+	<composite:attribute name="joinExistingGameButtonLabel" />
+	<composite:attribute name="joinExistingGameButtonAction"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+<composite:implementation>
+
+	<p:panel id="basic" header="Join existing game" footer=""
+		style="margin-bottom:10px">
+
+		<p:panelGrid id="gamePanel" styleClass="panelNoBorder">
+			<p:row>
+				<p:column>
+				<!--  keep out of form so we can get its value. Odd when in form js got wrong value -->		
+				<input type="url" id="displayHref" size="100"></input>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:panelGrid>
+						<p:row>
+							<p:column>#{cc.attrs.joinExistingGameLabel} :</p:column>
+							<p:column>	
+								<h:form id="joinExistingGameComponent">
+			    					<h:messages errorStyle="color:red" />
+									<p:commandButton id="joinGameButton" ajax="false"
+										value="#{cc.attrs.joinExistingGameButtonLabel}"
+										action="#{cc.attrs.joinExistingGameButtonAction}" />
+			
+									<h:inputHidden value="#{jsfGameBean.gameHref}" id="gameHref" />
+			
+									<h:inputHidden value="#{jsfGameBean.playerNumber}"	id="playerNumber" />
+								
+								</h:form>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+			
+		<script>
+				function joinGame(gameHref) {
+					getIdForJsfComponent('gameHref').val(gameHref)
+					var tictactoeHref = gameHref.split("/game")
+					if (setPlayer(tictactoeHref[0], "O", "#{cc.attrs.nickName}") == true) {
+						getIdForJsfComponent('playerNumber').val("O");
+						return true;
+					}
+					return false;
+
+				}
+
+				$(document).ready(
+						function() {
+							getIdForJsfComponent('displayHref').attr("size",
+									window.location.href.length / 2);
+
+							var button = getIdForJsfComponent('joinGameButton')
+							var buttonOnclick = button.click;
+							button.click(function() {
+								var result = joinGame(getIdForJsfComponent(
+										'displayHref').val())
+								if (result) {
+									return commandLinkOnclick();
+								}
+								return false;
+							})
+
+						});
+	
+			</script>
+	</p:panel>
+</composite:implementation>
+</html>

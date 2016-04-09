@@ -1,0 +1,30 @@
+#page{
+	width: 800px;
+	margin: 0 auto;
+}
+
+#header{
+	width: 100%;
+	height:100px;
+
+	margin-bottom:16px;
+}
+
+#content{
+	width: 100%;
+	height: 400px;
+	margin-right:16px;
+	margin-bottom:16px;
+}
+
+#footer{
+	width: 100%;
+	height:100px;
+}
+
+.panelNoBorder, .panelNoBorder tr, .panelNoBorder td{
+border: hidden;
+border-color: white;
+    padding: 20px 5px ;
+
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:metadata>
+	<f:viewParam name="access_token"
+		value="#{jsfAuthenticationBean.access_token}" />
+	<f:event type="preRenderView"
+		listener="#{jsfAuthenticationBean.setBearer}" />
+
+</f:metadata>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="lib/jquery-1.11.3.min.js"/>
+
+<!-- 
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+-->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<title>tictactoe</title>
+
+<h:head>
+
+	<script>
+function handleErrorBackToHome(jqXHR ,  textStatus,  errorThrown) {
+	alert( "oh dear\n"+textStatus+" "+jqXHR.status+"\n"+jqXHR.responseText);
+	getIdForJsfComponent('logoutButton').click();
+}
+function getIdForJsfComponent(theId) {
+	return $("[id$='"+theId+"']")
+	
+}
+function setPlayer(ticTactoe,number,name) {
+	console.log("set player " + number +" "+name+"  "+ticTactoe);
+	
+	var fullUrl = ticTactoe.concat("/players");
+	var players = [ null , null ]
+
+	if ( number == "X")	players[0]=name
+	else players[1]=name
+	
+	console.log("Sending "+JSON.stringify(players));
+
+	var r = $.ajax({
+		type : "PUT",
+		url : fullUrl,
+		beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + "#{jsfAuthenticationBean.access_token}"); }, 					
+		contentType : "application/json; charset=utf-8",
+        data: "{ \"players\" : "+ JSON.stringify(players) +"}",
+		async : false,
+		success : function(data,  textStatus, jqXHR  ) {
+			console.log("set player success " + JSON.stringify(data));
+		},
+		error : function( jqXHR ,  textStatus,  errorThrown ) {
+			handleErrorBackToHome( jqXHR ,  textStatus,  errorThrown )
+		}
+	});
+
+	if ( r.status == 200 ) return true;
+	return false;
+}
+function createMatch(ticTacToeHref) {
+	
+	var r=$.ajax({
+		type : "POST",
+		url : ticTacToeHref+"/game",
+		beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + "#{jsfAuthenticationBean.access_token}"); }, 					
+		contentType : "application/json; charset=utf-8",
+		async : false,
+		success : function(data, status, jqXHR) {
+			getIdForJsfComponent('gameHref').val(data._links.self.href);
+
+			var jsonStr = JSON.stringify(data);
+			return true;
+		},
+		error : function( jqXHR ,  textStatus,  errorThrown ) {
+			handleErrorBackToHome( jqXHR ,  textStatus,  errorThrown )
+			return false;
+		}
+	});
+
+	if ( r.status == 200 ) return true;
+	return false;
+}
+</script>
+	<h:outputStylesheet name="common-style.css" library="css" />
+</h:head>
+
+<h:body>
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<ui:insert name="header">
+				<ui:include src="/resources/template/commonHeader.xhtml" />
+			</ui:insert>
+		</div>
+		<div id="container">
+
+			<div id="content" class="row">
+				<ui:insert name="content">
+					<ui:include src="/resources/template/commonContent.xhtml" />
+				</ui:insert>
+			</div>
+
+		</div>
+
+		<div class="hidden">
+
+			<h:form id="logout" action="#{jsfAuthenticationBean.logout}">
+				<p:commandLink id="logoutButton" style="display: none"
+					value="logout" action="#{jsfAuthenticationBean.logout}" />
+			</h:form>
+		</div>
+
+	</div>
+	
+
+</h:body>
+</html>

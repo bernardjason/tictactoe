@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+<composite:interface>
+	<composite:attribute name="nickName" />
+	<composite:attribute name="createGameLabel" />
+	<composite:attribute name="createButtonLabel" />
+	<composite:attribute name="createButtonAction"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+<composite:implementation>
+
+	<p:panel id="basic" header="new game" footer=""
+		style="margin-bottom:10px">
+
+		<h:form id="createGameComponent">
+	
+    <h:messages errorStyle="color:red" />
+			<p:panelGrid id="gamePanel" styleClass="panelNoBorder">
+				<p:row>
+					<p:column>#{cc.attrs.createGameLabel} : </p:column>
+					<p:column>
+						<h:inputText required="true" label="#{cc.attrs.createGameLabel}"
+							id="gameName" value="#{jsfGameBean.gameName}" />
+						<h:inputHidden value="#{jsfGameBean.href}" id="href" />
+						<h:inputHidden value="#{jsfGameBean.playerNumber}"
+							id="playerNumber" />
+						<h:inputHidden value="#{jsfGameBean.gameHref}" id="gameHref" />
+					</p:column>
+					<p:column>
+						<p:commandButton id="createGameButton" ajax="false"
+							value="#{cc.attrs.createButtonLabel}"
+							action="#{cc.attrs.createButtonAction}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+		</h:form>
+	</p:panel>
+
+	<script>
+		function createGame(name) {
+
+			var r = $.ajax({
+				type : "POST",
+				url : "/swagger/tictactoe/?gameName="
+						+ name,
+				beforeSend : function(xhr, settings) {
+					xhr.setRequestHeader('Authorization', 'Bearer '
+							+ "#{jsfAuthenticationBean.access_token}");
+				},
+				async : false,
+				contentType : "application/json; charset=utf-8",
+				success : function(data, status, jqXHR) {
+					var jsonStr = JSON.stringify(data);
+					getIdForJsfComponent('href').val(data._links.self.href);
+					getIdForJsfComponent('playerNumber').val("X");
+
+					if (setPlayer(data._links.self.href, "X",
+							"#{cc.attrs.nickName}") == true) {
+						return createMatch(data._links.self.href)
+
+					}
+					return false;
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+
+					handleErrorBackToHome(jqXHR, textStatus, errorThrown);
+
+				}
+			});
+			if (r.status == 200)
+				return true;
+			return false;
+		}
+
+		$(document).ready(
+				function() {
+					getIdForJsfComponent('displayHref').attr("size",
+							window.location.href.length / 2);
+
+					var button = getIdForJsfComponent('createGameButton')
+					var buttonOnclick = button.click;
+					button
+							.click(function() {
+								var result = createGame(getIdForJsfComponent(
+										'gameName').val());
+								if (result) {
+									return commandLinkOnclick();
+								}
+								return false;
+							})
+
+				});
+
+	</script>
+
+</composite:implementation>
+</html>

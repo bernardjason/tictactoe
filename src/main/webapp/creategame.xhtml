@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ttt="http://java.sun.com/jsf/composite/ttt"
+	xmlns:p="http://primefaces.org/ui"
+	
+	
+	>
+<h:body>
+
+	<ui:composition template="/resources/template/commonLayout.xhtml">
+
+	<ui:param name="headerLine" value="Hi #{jsfAuthenticationBean.nickName}, create a game or join a friend's" />
+
+		<ui:define name="content">
+		
+<div class="text-center">
+
+      <h:form>
+      <ttt:createGameComponent 
+      	 nickName="#{jsfAuthenticationBean.nickName}"
+         createGameLabel="Enter game Name: " 
+        
+         createButtonLabel="create game"
+         createButtonAction="#{jsfGameBean.registerAction}"/>
+      </h:form>
+
+	  what do you want to call this game, for example mondayGame1
+</div>
+
+<div class="text-center">
+
+      <ttt:joinExistingGameComponent 
+      	 nickName="#{jsfAuthenticationBean.nickName}"
+         joinExistingGameLabel="Enter game ref mailed by your friend " 
+         joinExistingGameButtonLabel="join game"
+         joinExistingGameButtonAction="#{jsfGameBean.joinAction}"/>
+</div>         
+		</ui:define>
+
+		<ui:define name="footer">
+			<h2>This is creategame Footer</h2>
+
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>
