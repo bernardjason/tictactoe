@@ -17,4 +17,12 @@ or to play the game
 
 http://127.0.0.1:8080/swagger/home.xhtml
 
-More notes to follow.
+Notes to follow, some screen shots of swagger and oauth
+
+<img src="/screen/Screenshot1-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot2-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot3-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot4-authorization%20page%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot5-authorization%20page%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot6-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
+
