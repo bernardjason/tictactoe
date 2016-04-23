@@ -19,9 +19,11 @@ http://127.0.0.1:8080/swagger/home.xhtml
 
 Swagger requires a recent version of the browser, be that Chrome, Firefox or IE. The oauth functionality uses Object.assign which is added in ECMAScript 6th edition.
 
-I'v included the swagger-ui here, as I've tested this works, at least for my 2 browsers, Chrome and Firefox.
+I've included the swagger-ui here, as I've tested this works, at least for my 2 browsers, Chrome and Firefox.
 
-Notes to follow, some screen shots of swagger and oauth
+To run selenium tests
+
+mvnw package
 
 <img src="/screen/Screenshot1-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
 <img src="/screen/Screenshot2-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
@@ -74,6 +76,6 @@ Sets up JSF servlet, adds a logging filter plus adds the CheckBearer for calls t
 ##WEB-INF/   faces-config.xml and web.xml
 This is needed just to keep JSF happy. Otherwise not required.
 
-#cucumber
+##cucumber
 setup is via src/test/resources/bjason/swagger/jsf/jsf.feature, and classes CucumberJsfTest.java and JsfFeatureSteps. I've described the
-scnearios for driving the GUI pages using selenium. Sorry no proper unit tests.
+scenarios for driving the GUI pages using selenium. Sorry no proper unit tests.
