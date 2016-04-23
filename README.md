@@ -25,12 +25,12 @@ To run selenium tests
 
 mvnw package
 
-<img src="/screen/Screenshot1-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
-<img src="/screen/Screenshot2-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
-<img src="/screen/Screenshot3-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
-<img src="/screen/Screenshot4-authorization%20page%20-%20Google%20Chrome.png" width="60%"/>
-<img src="/screen/Screenshot5-authorization%20page%20-%20Google%20Chrome.png" width="60%"/>
-<img src="/screen/Screenshot6-Swagger%20UI%20-%20Google%20Chrome.png" width="60%"/>
+<img src="/screen/Screenshot1-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
+<img src="/screen/Screenshot2-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
+<img src="/screen/Screenshot3-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
+<img src="/screen/Screenshot4-authorization%20page%20-%20Google%20Chrome.png" width="40%"/>
+<img src="/screen/Screenshot5-authorization%20page%20-%20Google%20Chrome.png" width="40%"/>
+<img src="/screen/Screenshot6-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
 
 ## selenium
 test class JsfFeatureSteps.java sets up the use of 2 browsers. If you aren't using Chrome or Firefox, or are a 
