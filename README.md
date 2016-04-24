@@ -1,6 +1,16 @@
 # tictactoe
 a springfox swagger implementation of oauth using spring(with hibernate/h2), jsf, cucumber and selenium
 
+You can see this running now on heroku on a free Dyno, so it may be a little slow to start and in the unlikely event of many calls 
+it has to be idle for 6 hours in every 24 hours. (see https://devcenter.heroku.com/articles/dyno-types)
+
+swagger 
+	[http://bjason-tictactoe.herokuapp.com/swagger/swagger-ui.html]
+
+or tictactoe game at 
+
+	[http://bjason-tictactoe.herokuapp.com/swagger/home.xhtml]
+
 Quick note, the tests use Selenium and are set to use Firefox and Chrome. See file JsfFeatureSteps.java in package bjason.swagger.jsf. Also note that to test Chrome at least I've had to include copies of chromedrive for Linux.  You'll need copies for other platforms from here https://sites.google.com/a/chromium.org/chromedriver/
 
 The aim of the project was to look at a more recent copy of swagger than I've used before. Then to use JSF rather than the usual JSP. Finally I wanted to see the oauth feature built into swagger working. So the implementation features are built around my tool choice and what I wanted to see rather than best way to do it. Biggest "choice" being heavy use of javascript in JSF pages to call rest resources when I think I'd have done that on the backend in this case.
@@ -9,7 +19,7 @@ What does the game do? It just allows 2 players to have a game of tic tac toe. I
 
 to run up to play tictactoe as well as see the swagger gui
 
-mvnw clean spring-boot:run
+mvnw clean spring-boot:run -Dspring.profiles.active=local
 
 then visit http://127.0.0.1:8080/swagger/swagger-ui.html
 
@@ -23,7 +33,9 @@ I've included the swagger-ui here, as I've tested this works, at least for my 2 
 
 To run selenium tests
 
-mvnw package
+mvnw package -Dspring.profiles.active=local
+
+Note the use of spring profile, the default profile is set for heroku using postgress db
 
 <img src="/screen/Screenshot1-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
 <img src="/screen/Screenshot2-Swagger%20UI%20-%20Google%20Chrome.png" width="40%"/>
