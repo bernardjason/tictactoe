@@ -5,11 +5,11 @@ You can see this running now on heroku on a free Dyno, so it may be a little slo
 it has to be idle for 6 hours in every 24 hours. (see https://devcenter.heroku.com/articles/dyno-types)
 
 swagger 
-	[http://bjason-tictactoe.herokuapp.com/swagger/swagger-ui.html]
+	http://bjason-tictactoe.herokuapp.com/swagger/swagger-ui.html
 
 or tictactoe game at 
 
-	[http://bjason-tictactoe.herokuapp.com/swagger/home.xhtml]
+	http://bjason-tictactoe.herokuapp.com/swagger/home.xhtml
 
 Quick note, the tests use Selenium and are set to use Firefox and Chrome. See file JsfFeatureSteps.java in package bjason.swagger.jsf. Also note that to test Chrome at least I've had to include copies of chromedrive for Linux.  You'll need copies for other platforms from here https://sites.google.com/a/chromium.org/chromedriver/
 
