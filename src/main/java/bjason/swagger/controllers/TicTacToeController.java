@@ -116,7 +116,7 @@ public class TicTacToeController extends CommonSwagger {
 
     List<GrantType> grantTypes() {
         GrantType grantType = new ImplicitGrantBuilder()
-                .loginEndpoint(new LoginEndpoint("http://127.0.0.1:8080/swagger/authorization/authorization_server.html"))
+                .loginEndpoint(new LoginEndpoint("/swagger/authorization/authorization_server.html"))
                 .build();
         return newArrayList(grantType);
     }
